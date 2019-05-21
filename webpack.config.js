@@ -1,9 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 
-const conf = {
+module.exports = {
   mode: "development",
   devtool: 'source-map',
   entry: [
@@ -18,7 +19,8 @@ const conf = {
     path: path.resolve(__dirname, 'build')
   },
   devServer: {
-    contentBase: './build'
+    contentBase: './build',
+    stats: 'errors-only'
   },
   module: {
     rules: [
@@ -50,16 +52,10 @@ const conf = {
       }
     ]
   },
+  
   plugins: [
     new HtmlWebpackPlugin({template: './src/index.html'}),
-    new ExtractTextPlugin('style.css')
+    new ExtractTextPlugin('style.css'),
+    new CleanWebpackPlugin(),
   ]
 }
-
-module.exports = (env, options) => {
-  let production = options.mode === 'production';
-
-  conf.devtool = production ? false : 'source-map';
-
-  return conf;
-};
