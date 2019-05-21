@@ -1,5 +1,4 @@
 import lqwe from './js/qwe'
-import './styles/index.scss'
 
 console.log('Hello ts')
 

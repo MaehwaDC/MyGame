@@ -3,21 +3,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 
-module.exports = {
+const conf = {
   mode: "development",
   devtool: 'source-map',
-  entry: {
-    main: './src/index.ts',
-  },
+  entry: [
+    './src/index.ts',
+    './src/styles/index.scss'
+  ],
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
   },
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'out')
+    path: path.resolve(__dirname, 'build')
   },
   devServer: {
-    contentBase: './out'
+    contentBase: './build'
   },
   module: {
     rules: [
@@ -28,15 +29,37 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [
-            "style-loader", // creates style nodes from JS strings
-            "css-loader", // translates CSS into CommonJS
-            "sass-loader" // compiles Sass to CSS, using Node Sass by default
-        ]
+        include: path.resolve(__dirname, 'src/styles'),
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            }, 
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+          ]
+        })
       }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({template: './src/index.html'})
+    new HtmlWebpackPlugin({template: './src/index.html'}),
+    new ExtractTextPlugin('style.css')
   ]
 }
+
+module.exports = (env, options) => {
+  let production = options.mode === 'production';
+
+  conf.devtool = production ? false : 'source-map';
+
+  return conf;
+};
