@@ -27,7 +27,7 @@ abstract class GameObject {
   protected context: CanvasRenderingContext2D
 
   movement = (): void => {
-    
+
     this.posX += this._dX;
     this.posY += this._dY;
   }
@@ -37,7 +37,7 @@ abstract class GameObject {
     this._dY = dy;
   }
 
-  abstract drow(): void;
+  abstract draw(): void;
   abstract update(): void;
 }
 

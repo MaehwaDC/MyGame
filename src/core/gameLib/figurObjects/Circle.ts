@@ -11,7 +11,7 @@ class Circle extends GameObject {
     this._color = color;
   }
 
-  
+
   private _color:string;
   get color() { return this._color }
   set color(color:string) { this._color = color }
@@ -19,7 +19,7 @@ class Circle extends GameObject {
   get radius() { return this._width }
   set radius(radius:number) { this._width = radius*2 }
 
-  drow = () => {
+  draw = () => {
     this.context.beginPath();
     this.context.arc(this.posX, this.posY, this._width/2, 0, Math.PI*2);
     this.context.fillStyle = this._color;
